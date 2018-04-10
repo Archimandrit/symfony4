@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use App\Helpers\FileHelper;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostsRepository")
@@ -10,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Posts
 {
+
+    const FILE_EXTENSION = ['jpg', 'png', 'jpeg', 'gif', 'bmp'];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -29,8 +35,14 @@ class Posts
 
     /**
      * @ORM\Column(type="string", nullable=true, length=255)
+     * @Assert\NotBlank(message="Прикрепите изображение")
      */
     private $image;
+
+    /**
+     * @var UploadedFile
+     */
+    private $file;
 
     /**
      * @ORM\Column(type="integer", options={"default"=0})
@@ -183,4 +195,29 @@ class Posts
         $this->createdAt = new \DateTime();
     }
 
+    /**
+     * @return UploadedFile
+     */
+    public function getFile(): ?UploadedFile
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file): void
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function uploadFile()
+    {
+        $file = $this->getFile();
+        $filename = $file->getClientOriginalName();
+        $file->move(FileHelper::UPLOAD_DIR, $filename);
+    }
 }
