@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Helpers\FileHelper;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -63,6 +64,11 @@ class Posts
      * @ORM\Column(type="datetime", options={"default"="CURRENT_TIMESTAMP"})
      */
     private $updatedAt;
+    /**
+     * @var Comments[] |PersistentCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\Comments", mappedBy="post"))
+     */
+    private $comments;
 
     public function getId()
     {
@@ -220,4 +226,22 @@ class Posts
         $filename = $file->getClientOriginalName();
         $file->move(FileHelper::UPLOAD_DIR, $filename);
     }
+
+    /**
+     * @return Comments[]|PersistentCollection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comments[]|PersistentCollection $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
+    }
+
+
 }

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Список постов{% endblock %}
+
+{% block body %}
+
+    <style>
+        .post .item {
+            margin: 15px 0 0 25%;
+            background-color: #c0c6ff;
+            padding: 20px;
+            width: 50%;
+        }
+        .userinfo{
+            display: flex;
+            margin: 15px 0 0 25%;
+            padding: 5px;
+        }
+        .avatar img {
+            width: 100px;
+            height: 100px;
+            border-radius: 100px;
+        }
+        .username {
+            margin: 15px;
+        }
+
+    </style>
+
+    <div class="post">
+        <div class="userinfo">
+            <div class="avatar">
+                <a href="../posts"><img src='{{ post.image }}'></a>
+            </div>
+            <div class="username">
+                <a href="{{ '../posts' }}">{{ post.id }}</a>
+            </div>
+
+        </div>
+            <div class="item">
+                {{ post.content | raw }}
+                <div class="image">
+                    <img src="{{ post.image }}" width="606">
+                </div>
+            </div>
+        {% for comment in post.comments %}
+        <div class="item">
+            {{ comment.content | raw }}
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -58,4 +58,18 @@ class PostsController extends Controller
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     *
+     * @Route("/posts/{postId}", name="get_post", requirements={"postId"="\d+"})
+     */
+    public function getDetailed ($postId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('App:Posts')->find($postId);
+
+        return $this->render('posts/detailed.html.twig', [
+            'post' => $post,
+        ]);
+    }
 }

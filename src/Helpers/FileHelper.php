@@ -7,7 +7,7 @@ namespace App\Helpers;
 class FileHelper
 {
 
-    const UPLOAD_DIR = ROOT_DIR.'assets/uploads/';
+    const UPLOAD_DIR = __DIR__.'/../../assets/uploads/';
 
     public static function getExtension(string $filename)
     {
