@@ -82,8 +82,8 @@ class Posts
 
     public function setContent(string $content): self
     {
-        $this->content = $content;
 
+        $this->content = $content;
         return $this;
     }
 
@@ -242,6 +242,5 @@ class Posts
     {
         $this->comments = $comments;
     }
-
 
 }
